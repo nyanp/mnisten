@@ -102,6 +102,16 @@ int read_images(const fs::path& path, uint8_t label, vector<image>& images, int 
     return num_images;
 }
 
+void dump_map(const map<string, uint8_t>& m, const string& filename)
+{
+    ofstream ofs(filename.c_str());
+    if (ofs.fail() || ofs.bad())
+        throw runtime_error("failed to create file:" + filename);
+
+    for (auto v : m)
+        ofs << v.first << "," << v.second << endl;
+}
+
 void exec(const string& dir, const string& output_prefix, int num_tests, int w, int h)
 {
     auto map = make_table_from_subdir_to_label(dir);
@@ -111,7 +121,7 @@ void exec(const string& dir, const string& output_prefix, int num_tests, int w, 
     BOOST_FOREACH(const fs::path& p, std::make_pair(fs::directory_iterator(path), fs::directory_iterator())) {
         if (fs::is_directory(p)) {
             int n = read_images(p, map[p.string()], images, w, h);
-            cout << "-" << p.stem().string() << " " << n << "images" << endl;
+            cout << map[p.string()] << ":" << p.stem().string() << " " << n << "images" << endl;
         }
     }
 
@@ -135,12 +145,10 @@ void exec(const string& dir, const string& output_prefix, int num_tests, int w, 
     }
     gen_mnist_images(train_img,   images.begin() + num_tests, images.end());
     gen_mnist_labels(train_label, images.begin() + num_tests, images.end());
+
+    dump_map(map, "label.txt");
 }
 
-
-/**
- * mnisten -d image-dir -o output-file-prefix -s 32x32 -n 1000
- **/
 int main(int argc, char *argv[])
 {
   cmdline::parser a;
