@@ -112,6 +112,11 @@ void dump_map(const map<string, uint8_t>& m, const string& filename)
         ofs << v.first << "," << v.second << endl;
 }
 
+string add_prefix(const string& prefix, const string& base)
+{
+    return prefix.empty() ? base : prefix + "_" + base;
+}
+
 void exec(const string& dir, const string& output_prefix, int num_tests, int w, int h)
 {
     auto map = make_table_from_subdir_to_label(dir);
@@ -134,10 +139,10 @@ void exec(const string& dir, const string& output_prefix, int num_tests, int w, 
 
     cout << "total " << images.size() << "images found." << endl;
 
-    string train_img   = output_prefix + "_train_images.idx3";
-    string train_label = output_prefix + "_train_labels.idx1";
-    string test_img    = output_prefix + "_test_images.idx3";
-    string test_label  = output_prefix + "_test_labels.idx1";
+    string train_img   = add_prefix(output_prefix, "train_images.idx3");
+    string train_label = add_prefix(output_prefix, "train_labels.idx1");
+    string test_img    = add_prefix(output_prefix, "test_images.idx3");
+    string test_label  = add_prefix(output_prefix, "test_labels.idx1");
 
     if (num_tests > 0) {
         gen_mnist_images(test_img,   images.begin(), images.begin() + num_tests);
@@ -153,7 +158,7 @@ int main(int argc, char *argv[])
 {
   cmdline::parser a;
   a.add<string>("dir", 'd', "target directory", true);
-  a.add<string>("output", 'o', "output file prefix", true);
+  a.add<string>("output", 'o', "output file prefix", false);
   a.add<int>("num-tests", 'n', "number of test data", false, 0);
   a.add<string>("size", 's', "size of output data (WxH)", false, "32x32");
 
