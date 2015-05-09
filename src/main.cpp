@@ -121,7 +121,7 @@ void exec(const string& dir, const string& output_prefix, int num_tests, int w, 
     BOOST_FOREACH(const fs::path& p, std::make_pair(fs::directory_iterator(path), fs::directory_iterator())) {
         if (fs::is_directory(p)) {
             int n = read_images(p, map[p.string()], images, w, h);
-            cout << map[p.string()] << ":" << p.stem().string() << " " << n << "images" << endl;
+            cout << (int)map[p.string()] << ":" << p.stem().string() << " " << n << "images" << endl;
         }
     }
 
