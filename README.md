@@ -1,4 +1,4 @@
-# mnisten
+# mnisten : image files to idx format converter
 mnisten is a library to convert image files to [idx format](http://yann.lecun.com/exdb/mnist/) binaries.
 - assign label id automatically by directory-name (lexicographical order)
 - auto resizing
@@ -14,11 +14,11 @@ image files:
 |   |--a.bmp
 |   |--b.bmp
 |   +--1.txt
-+-bar
-   |--c.bmp
-   |--d.bmp
-   +--buzz
-        +--e.bmp
++--bar
+    |--c.bmp
+    |--d.bmp
+    +--buzz
+         +--e.bmp
 ```
 - a and b.bmp => assign label 1
 - c and d.bmp => assign label 0
@@ -42,3 +42,14 @@ then create:
 |--output,-o|prefix(string)|prefix of output idx files|no|""|
 |--num-tests,-n|num(int)|number of test data (if 0, all images are treated as training data)|no|0|
 |--size,-s|WxH(string)|size of each image data|no|32x32|
+
+
+#prerequisites
+- OpenCV
+- boost
+
+#build
+```
+make
+```
+or build vc/mnisten.sln
