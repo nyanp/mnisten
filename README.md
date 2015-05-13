@@ -20,8 +20,8 @@ image files:
     +--buzz
          +--e.bmp
 ```
-- a and b.bmp => assign label 1
-- c and d.bmp => assign label 0
+- a and b.bmp => label 1
+- c and d.bmp => label 0
 - 1.txt and e.bmp => ignored
 
 #usage
@@ -46,7 +46,7 @@ then create:
 
 #prerequisites
 - OpenCV
-- boost
+- boost (boost/filesystem)
 
 #build
 ```
