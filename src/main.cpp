@@ -71,7 +71,6 @@ void gen_mnist_images(const string& image_file, ImageIterator begin, ImageIterat
     ofs.write((char*) &num_cols, 4);
 
     for (; begin != end; ++begin) {
-        ofs.write((char*) &begin->label, 1);
         cv::Mat_<uint8_t>& m = (cv::Mat_<uint8_t>&)begin->data;
 
         for (auto v : m)
