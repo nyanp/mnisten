@@ -116,7 +116,7 @@ string add_prefix(const string& prefix, const string& base)
     return prefix.empty() ? base : prefix + "_" + base;
 }
 
-void exec(const string& dir, const string& output_prefix, int num_tests, int w, int h)
+void exec(const string& dir, const string& output_prefix, int num_tests, int w, int h, bool data_shuffle = true)
 {
     auto map = make_table_from_subdir_to_label(dir);
     vector<image> images;
@@ -130,7 +130,8 @@ void exec(const string& dir, const string& output_prefix, int num_tests, int w, 
     }
 
     // shuffle
-    shuffle(images.begin(), images.end(), default_random_engine(0));
+    if (data_shuffle)
+        shuffle(images.begin(), images.end(), default_random_engine(0));
 
     // split train/test data
     if ((int)images.size() <= num_tests)
@@ -160,12 +161,13 @@ int main(int argc, char *argv[])
   a.add<string>("output", 'o', "output file prefix", false);
   a.add<int>("num-tests", 'n', "number of test data", false, 0);
   a.add<string>("size", 's', "size of output data (WxH)", false, "32x32");
+  a.add("without-shuffle", 'w', "create data without shuffling");
 
   a.parse_check(argc, argv);
 
   try {
       auto size = parse_size(a.get<string>("size"));
-      exec(a.get<string>("dir"), a.get<string>("output"), a.get<int>("num-tests"), size.first, size.second);
+      exec(a.get<string>("dir"), a.get<string>("output"), a.get<int>("num-tests"), size.first, size.second, !a.exist("without-shuffle"));
   }
   catch (const exception& e) {
       cout << "error:" << e.what() << endl;
