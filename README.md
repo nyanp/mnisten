@@ -42,7 +42,7 @@ then create:
 |--output,-o|prefix(string)|prefix of output idx files|no|""|
 |--num-tests,-n|num(int)|number of test data (if 0, all images are treated as training data)|no|0|
 |--size,-s|WxH(string)|size of each image data|no|32x32|
-
+|--without-shuffle,-w|(none)|disable data shuffling|no|false|
 
 #prerequisites
 - OpenCV
